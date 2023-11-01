@@ -97,7 +97,7 @@ __`Case 1`__
 `Result 1`
 ```
 raw counts (train): 0.9895557029177718 -> 98.956 %
-raw_counts (test): 0.9582089552238806  -> 95.821 %
+raw counts (test): 0.9582089552238806  -> 95.821 %
 ---------------------------------------------------
 tfidf (train): 0.9993368700265252      -> 99.934 %
 tfidf (test): 0.9716417910447761       -> 97.164 %
@@ -112,7 +112,7 @@ word2vec (test): 0.9298507462686567    -> 92.985 %
 `Result 2`
 ```
 raw counts (train): 0.9892241379310345 -> 98.922 %
-raw_counts (test): 0.9671641791044776  -> 96.716 %
+raw counts (test): 0.9671641791044776  -> 96.716 %
 ---------------------------------------------------
 tfidf (train): 0.9993368700265252      -> 99.934 %
 tfidf (test): 0.9686567164179104       -> 96.866 %
@@ -127,7 +127,7 @@ word2vec (test): 0.9119402985074627    -> 91.194 %
 `Result 3`
 ```
 raw counts (train): 0.9885610079575596 -> 98.856 %
-raw_counts (test): 0.9567164179104478  -> 95.672 %
+raw counts (test): 0.9567164179104478  -> 95.672 %
 ---------------------------------------------------
 tfidf (train): 0.9991710875331565      -> 99.917 %
 tfidf (test): 0.9626865671641791       -> 96.269 %
@@ -145,7 +145,7 @@ __`Case 2`__
 `Result 1`
 ```
 raw counts (train): 0.9890583554376657 -> 98.906 %
-raw_counts (test): 0.9731343283582089  -> 97.313 %
+raw counts (test): 0.9731343283582089  -> 97.313 %
 ---------------------------------------------------
 tfidf (train): 0.9993368700265252      -> 99.934 %
 tfidf (test): 0.9611940298507463       -> 96.120 %
@@ -160,7 +160,7 @@ word2vec (test): 0.9492537313432836    -> 94.925 %
 `Result 2`
 ```
 raw counts (train): 0.9897214854111406 -> 98.972 %
-raw_counts (test): 0.9701492537313433  -> 97.015 %
+raw counts (test): 0.9701492537313433  -> 97.015 %
 ---------------------------------------------------
 tfidf (train): 0.9993368700265252      -> 99.934 %
 tfidf (test): 0.9656716417910448       -> 96.567 %
@@ -175,7 +175,7 @@ word2vec (test): 0.9537313432835821    -> 95.373 %
 `Result 3`
 ```
 raw counts (train): 0.9897214854111406 -> 98.972 %
-raw_counts (test): 0.9597014925373134  -> 95.970 %
+raw counts (test): 0.9597014925373134  -> 95.970 %
 ---------------------------------------------------
 tfidf (train): 0.9993368700265252      -> 99.934 %
 tfidf (test): 0.9686567164179104       -> 96.866 %
@@ -188,4 +188,15 @@ word2vec (test): 0.9477611940298507    -> 94.776 %
 ```
 
 ## Explanation of Results
-* First of all, in google news pre-trained model, when comparing the two methods, the LSA approach shows better performance.
+### Hypothesis
+  ```
+  Function Performance: word2vec -> LSA -> tf-idf -> raw counts
+  ```
+### Analysis of Results
+By comparing the results of four different methods on document vectors, we observed several outcomes. Initially, we hypothesized that the performance would degrade in the order of word2vec, LSA, tf-idf, and raw counts. However, the actual results, derived from comparing the percent correct using training datasets from Austen's "Sense and Sensibility", Carroll's "Alice in Wonderland", "Google News" and "Fasttext Wiki News", contradicted our expectations. There are several reasons that might explain this discrepancy.</br>
+Firstly, unlike LSA, tf-idf, and raw counts, the word2vec model was trained not using combined data from Austen and Carroll, but using "Google News" or "Fasttext Wiki News". Hence, the correct percentage appeared lower than anticipated. Despite the difference in training models, a result of about 92-95% demonstrates the excellent correct performance of word2vec. Another contributing factor is the higher accuracy rate of tf-idf and raw counts compared to word2vec or LSA, which can arise due to various complex reasons. One primary reason could be the dataset size. Word2vec requires large data, whereas raw counts, being a simple technique, can work well even with smaller datasets. The dataset size of Google News used for word2vec is around 1.6GB, and that of fasttext wiki news is about 1GB; significantly smaller than the typical dataset sizes for word2vec. Hence, this size difference could have influenced the results.</br>
+Moreover, the nature of the documents can impact the results. TF-IDF emphasizes words frequently appearing in specific documents, and raw counts consider only the frequency of word appearance. If the training dataset has documents with such features prominently, then they can display better accuracy than word2vec and LSA. Furthermore, both word2vec and LSA require model tuning to find the optimal settings, which might make simpler models like td-idf and raw counts perform better in certain cases.</br>
+Therefore, we can see that the actual results differ from the initially hypothesized performance order, and we can understand the reasons behind this discrepancy.
+
+### Summary
+By comparing the percentage correct through four different word/document embeddings methods, it's evident that methods which are theoretically expected to show a higher match rate, based on various factors like training data documents, data size, document characteristics, and model configurations, might sometimes exhibit a lower match rate than relatively simple methods. Therefore, if one configures the model considering all these factors, a higher match rate can be achieved.
