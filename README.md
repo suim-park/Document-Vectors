@@ -70,7 +70,8 @@ def generate_data_word2vec(
     #########################################################################
     # Load the pre-trained word2vec model
     # It can be substituted with another pre-trained model if desired
-    model = api.load("word2vec-google-news-300") # For example
+    pre_trained_model = api.load("word2vec-google-news-300")
+    # pre_trained_model = api.load("fasttext-wiki-news-subwords-300")  # Different pre-trained model
 
     # Function to create document embeddings
     def document_embedding(doc: list[str], model) -> FloatArray:
